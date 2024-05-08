@@ -8,31 +8,75 @@
    <div class="box">
       <form action="{% url 'cadastro' %}"method="POST"> {% csrf_token %}
 
-         <!-- tratamento de erros para mais informações acessar o settings.py e procurar por mensagens de erros  -->    
-            {% if messages %}
-               {% for message in messages %}
-               <div class="alert {{message.tags}}">
-                  {{message}}
-               </div>
-               {% endfor %}
-            {% endif %}
+
          
             
 
 
          <h1 class="titulo font-degrade borda-bottom-degrade">INSCREVA-SE</h2>
          <br>
-         <span class="span-descricao">Nome de usuário:</span>
-         <input type="text" class="form-control input-cadastro" name="username">
+         <!-- tratamento de erros para mais informações acessar o settings.py e procurar por mensagens de erros  -->    
+         {% if messages %}
+            {% for message in messages %}
+               <div class="alert {{message.tags}}">
+                  {{message}}
+               </div>
+            {% endfor %}
+         {% endif %}
+         
+         <span class="span-descricao">CPF/CNPJ:</span>
+         <input type="text" value="{{username}}" id="username" name="username" class="form-control input-cadastro"  placeholder="Digite CPF ou CNPJ" maxlength="18" oninput="formatCPF_CNPJ(this)">
          <br>
+
+         <span class="span-descricao">Email</span>
+         <input type="email" value="{{email}}" class="form-control input-cadastro" name="email">
+         <br>
+
+         <span class="span-descricao">Primeiro nome</span>
+         <input type="text" value="{{first_name}}" class="form-control input-cadastro" name="first_name">
+         <br>
+
+         <span class="span-descricao">Sobrenome</span>
+         <input type="text" value="{{last_name}}" class="form-control input-cadastro" name="last_name">
+         <br>
+         
          <span class="span-descricao">Senha:</span>
          <input type="password" class="form-control input-cadastro" name="password">
          <br>
+
          <span class="span-descricao">Confirmar senha:</span>
          <input type="password" class="form-control input-cadastro" name="confirm-password">
          <br>
+
          <input type="submit" value="CADASTRAR" class="btn btn-success btn-lg">
+         
          <a href="{% url 'logar'%}" class="btn btn-primary btn-lg">LOGIN</a>
+      
       </form>
    </div>
+
+
+   <script>
+
+function formatCPF_CNPJ(input) {
+
+
+   if (input.value.length > 14) {
+      input.value = input.value
+         .replace(/\D/g, '')
+         .replace(/(\d{2})(\d)/, '$1.$2')
+         .replace(/(\d{3})(\d)/, '$1.$2')
+         .replace(/(\d{3})(\d)/, '$1/$2')
+         .replace(/(\d{4})(\d{1,2})/, '$1-$2')
+         .replace(/(-\d{2})\d+?$/, '$1');
+   }else {
+      input.value = input.value
+      .replace(/\D/g, '')
+      .replace(/(\d{3})(\d)/, '$1.$2')
+      .replace(/(\d{3})(\d)/, '$1.$2')
+      .replace(/(\d{3})(\d{1,2})/, '$1-$2')
+      .replace(/(-\d{2})\d+?$/, '$1');
+      }
+   }
+   </script>
 {% endblock %}
