@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.http import HttpResponse
-from django.contrib.auth.models import User #importa a class de usuario do django 
+from autenticacao.models import Users #importa a class de usuario do django 
 from django.contrib import messages #importa as mensagens de verificação
 from django.contrib.messages import constants #importa o modulo constants das mensagens de verificação
 from django.contrib import auth
@@ -33,7 +33,7 @@ def cadastro(request):
             messages.add_message(request, constants.ERROR, 'Preencha todos os campos') #mensagem de erro para mais informação acessar settings.py e procurar por mensagens de erros
             return redirect('/auth/cadastro/')
         
-        user = User.objects.filter(username = username)
+        user = Users.objects.filter(username = username)
         
         if user.exists():
             messages.add_message(request, constants.ERROR, 'Usuario já existe') #mensagem de erro para mais informação acessar settings.py e procurar por mensagens de erros
@@ -41,7 +41,7 @@ def cadastro(request):
         
         try:
             
-            user = User.objects.create_user(username=username, password=senha)
+            user = Users.objects.create_user(username=username, password=senha)
             user.save()
             return redirect('/auth/logar')
         

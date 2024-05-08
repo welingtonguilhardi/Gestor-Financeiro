@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'autenticacao',
     'home',
+    'empresa',
 ]
 
 MIDDLEWARE = [
@@ -117,5 +118,7 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Config Users
+# Config auth django
+
+AUTH_USER_MODEL = "autenticacao.Users"
 
