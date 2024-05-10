@@ -1,0 +1,332 @@
+{% extends "base.html" %}
+
+
+<!DOCTYPE html>
+<html lang="pt-br">
+{% block 'head %}
+  
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+
+    {% endblock 'head %}
+{% block 'body' %}
+  
+    <div class="page-content container">
+        <div class="page-header text-blue-d2">
+            <h1 class="page-title text-secondary-d1">
+                Rembolsos
+                <small class="page-info">
+                    <i class="fa fa-angle-double-right text-80"></i>
+                    {% if ano_mes %}
+                        {{ano_mes}}
+                    {% else %}
+                        Qualquer data
+                    {% endif %}
+                </small>
+            </h1>
+
+            <div class="page-tools">
+                <div class="action-buttons">
+                    <a class="btn bg-white btn-light mx-1px text-95" href="#" data-title="Print" onclick="window.print()">
+                        <i class="mr-1 fa fa-print text-primary-m1 text-120 w-2"></i>
+                        Imprimir
+                    </a>
+                    <a class="btn bg-white btn-light mx-1px text-95" href="#" data-title="PDF" id="exportPDF">
+                        <i class="mr-1 fa fa-file-pdf-o text-danger-m1 text-120 w-2"></i>
+                        Exportar para PDF
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="container px-0">
+            <div class="row mt-4">
+                <div class="col-12 col-lg-12">
+
+                    <!-- .row -->
+
+
+                    <div class="row">
+
+                        <!-- /.col -->
+                        <!-- Filtros -->
+                        <div class="text-95 col-sm-6 align-self-start d-sm-flex justify-content">
+                            <hr class="d-sm-none" />
+                            <div class="text-grey-m2">
+                                <div class="mt-1 mb-2 text-secondary-m1 text-600 text-125">
+                                    Filtros
+                                </div>
+                                <form action="" method="post">{% csrf_token %}
+                                    <div class="my-2">
+                                        <i class="fa fa-circle text-blue-m2 text-xs mr-1"></i> 
+                                        <span class="text-600 text-90">Nome:</span>
+                                        <input type="text" value="{{busca_nome}}" name="nome" placeholder="Busque por nome..." style="border-radius: 2vh;background-color: gainsboro;">
+                                    </div>
+
+                                    <div class="my-2">
+                                        <i class="fa fa-circle text-blue-m2 text-xs mr-1"></i> 
+                                        <span class="text-600 text-90">Data:</span> 
+                                        <input type="month" id="start" name="data" value="{{ano_mes}}"  style="border-radius: 2vh;background-color: gainsboro;"/>                                
+                                    </div>
+
+                                    <div class="my-2">
+                                        <i class="fa fa-circle text-blue-m2 text-xs mr-1"></i> 
+                                        <span class="text-600 text-90">Status:</span> 
+                                        <select class="drop badge badge-pill px-25" name="pago" id="pago" style="background-color: gainsboro;">
+                                            <option  value="N">Não pago</option>
+                                            <option {% if pago %} selected {% endif %} value="S">Pagos</option>
+                                            <option {% if pago is None %}selected{% endif %} value="Q">Qualquer</option>
+                                        </select>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+
+                    <div class="mt-4">
+
+                        <div class="row text-600 text-white bgc-default-tp1 py-25 d-none d-sm-flex">
+                            <div class="col-1">Data/Hora</div>
+                            <div class="col-9 col-sm-5">Funcionário</div>
+                            <div class="col-2">Motivo</div>
+                            <div class="col-2">Status</div>
+                            <div class="col-2">Valor reembolsado</div>
+                        </div>
+                        
+                        <div class="row text-95 text-secondary-d3 d-flex d-sm-none">
+                            <div class="col-12">
+                                <table class="table table-responsive-sm table-hover table-borderless">
+                                    <thead>
+                                        <tr>
+                                            <th>Data/Hora</th>
+                                            <th>Funcionário</th>
+                                            <th>Motivo</th>
+                                            <th>Status</th>
+                                            <th>Valor reembolsado</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for rembolso in rembolsos %}
+                                        <tr>
+                                            <td>{{ rembolso.data_comprovante }}</td>
+                                            <td>{{ rembolso.user_funcionario.first_name }} {{ rembolso.user_funcionario.last_name }}</td>
+                                            <td>{{ rembolso.motivo }}</td>
+                                            <td>{% if rembolso.pago %}Pago{% else %}Não pago{% endif %}</td>
+                                            <td>R$ {{ rembolso.preco }}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        
+                        <div class="d-none d-sm-block">
+                            {% for rembolso in rembolsos %}
+                            <div class="text-95 text-secondary-d3">
+                                <div class="row mb-2 mb-sm-0 py-25">
+                                    <div class="col-1">{{ rembolso.data_comprovante }}</div>
+                                    <div class="col-9 col-sm-5">{{ rembolso.user_funcionario.first_name }} {{ rembolso.user_funcionario.last_name }}</div>
+                                    <div class="col-2">{{ rembolso.motivo }}</div>
+                                    <div class="col-2 text-95">{% if rembolso.pago %}Pago{% else %}Não pago{% endif %}</div>
+                                    <div class="col-2 text-secondary-d2">R$ {{ rembolso.preco }}</div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        
+
+
+                        <div class="row border-b-2 brc-default-l2"></div>
+
+                        <!-- Valor rembolsos -->
+                        <div class="row mt-3">
+                            <div class="col-12 col-sm-7 text-grey-d2 text-95 mt-2 mt-lg-0">
+                                Clique sobre a linha do rembolso para mais detalhes...
+                            </div>
+
+                            <div class="col-12 col-sm-5 text-grey text-90 order-first order-sm-last">
+                                <div class="row my-2 align-items-center bgc-primary-l3 p-2">
+                                    <div class="col-7 text-right">
+                                        Valor Total
+                                    </div>
+                                    <div class="col-5">
+                                        <span class="text-150 text-success-d3 opacity-2">R${{valor_total}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr />
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    
+
+
+    <script>
+        document.addEventListener('keydown', function(event) {
+            if (event.key === "Enter") {
+                document.querySelector('form').submit();
+            }
+        });
+        window.jsPDF = window.jspdf.jsPDF;
+        document.getElementById('exportPDF').addEventListener('click', function () {
+        html2canvas(document.body).then(function(canvas) {
+            var imgData = canvas.toDataURL('image/png');
+            var imgWidth = 210; 
+            var pageHeight = 295; 
+            var imgHeight = canvas.height * imgWidth / canvas.width;
+            var heightLeft = imgHeight;
+
+            var doc = new jsPDF('p', 'mm');
+            var position = 0;
+
+            doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+            heightLeft -= pageHeight;
+
+            while (heightLeft >= 0) {
+                position = heightLeft - imgHeight;
+                doc.addPage();
+                doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+                heightLeft -= pageHeight;
+            }
+
+            doc.save('documento.pdf');
+        });
+    });
+    </script>
+
+
+    <style>
+
+        body{
+            color: #484b51;
+        }
+        .text-secondary-d1 {
+            color: #728299!important;
+        }
+        .page-header {
+            margin: 0 0 1rem;
+            padding-bottom: 1rem;
+            padding-top: .5rem;
+            border-bottom: 1px dotted #e2e2e2;
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-pack: justify;
+            justify-content: space-between;
+            -ms-flex-align: center;
+            align-items: center;
+        }
+        .page-title {
+            padding: 0;
+            margin: 0;
+            font-size: 1.75rem;
+            font-weight: 300;
+        }
+        .brc-default-l1 {
+            border-color: #dce9f0!important;
+        }
+
+        .ml-n1, .mx-n1 {
+            margin-left: -.25rem!important;
+        }
+        .mr-n1, .mx-n1 {
+            margin-right: -.25rem!important;
+        }
+        .mb-4, .my-4 {
+            margin-bottom: 1.5rem!important;
+        }
+
+        hr {
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+            border: 0;
+            border-top: 1px solid rgba(0,0,0,.1);
+        }
+
+        .text-grey-m2 {
+            color: #888a8d!important;
+        }
+
+        .text-success-m2 {
+            color: #86bd68!important;
+        }
+
+        .font-bolder, .text-600 {
+            font-weight: 600!important;
+        }
+
+        .text-110 {
+            font-size: 110%!important;
+        }
+        .text-blue {
+            color: #478fcc!important;
+        }
+        .pb-25, .py-25 {
+            padding-bottom: .75rem!important;
+        }
+
+        .pt-25, .py-25 {
+            padding-top: .75rem!important;
+        }
+        .bgc-default-tp1 {
+            background-color: rgba(121,169,197,.92)!important;
+        }
+        .bgc-default-l4, .bgc-h-default-l4:hover {
+            background-color: #f3f8fa!important;
+        }
+        .page-header .page-tools {
+            -ms-flex-item-align: end;
+            align-self: flex-end;
+        }
+
+        .btn-light {
+            color: #757984;
+            background-color: #f5f6f9;
+            border-color: #dddfe4;
+        }
+        .w-2 {
+            width: 1rem;
+        }
+
+        .text-120 {
+            font-size: 120%!important;
+        }
+        .text-primary-m1 {
+            color: #4087d4!important;
+        }
+
+        .text-danger-m1 {
+            color: #dd4949!important;
+        }
+        .text-blue-m2 {
+            color: #68a3d5!important;
+        }
+        .text-150 {
+            font-size: 150%!important;
+        }
+        .text-60 {
+            font-size: 60%!important;
+        }
+        .text-grey-m1 {
+            color: #7b7d81!important;
+        }
+        .align-bottom {
+            vertical-align: bottom!important;
+        }
+
+    </style>
+
+
+{% endblock 'body' %}
+</html>

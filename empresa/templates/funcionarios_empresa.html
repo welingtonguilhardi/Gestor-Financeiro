@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+
+
+<!DOCTYPE html>
+<html lang="pt-br">
+{% block 'head' %}
+  
+<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+    <link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+{% endblock 'head' %}    
+{% block 'body' %}
+  
+    
+    <div class="mt-5 container bootstrap snippets bootdey">
+
+    <div class="header">
+        <h3 class="text-muted prj-name">
+            <span class="fa fa-users fa-2x principal-title"></span>
+            Funcionarios
+        </h3>
+    </div>
+
+
+    <div class="jumbotron list-content">
+        <ul class="list-group">
+            <li href="#" class="list-group-item title">
+                <form action="" method="post" id="meuForm">
+                    {% csrf_token %}
+                    <input class="form-control" name = 'busca_nome'type="text" placeholder="Busque funcionario por nome">
+                    <input value="" id="botao_nome" name="botao_nome" type="text" style="display: none;">
+
+            </li>
+
+            {% for funcionario in funcionarios  %}
+                
+              
+            
+                <li href="#" class="list-group-item text-left">
+                    <img class="img-thumbnail" src="https://bootdey.com/img/Content/User_for_snippets.png">
+                    <label class="name">
+                        {{funcionario.user_funcionario.first_name}} {{funcionario.user_funcionario.last_name}}<br>
+                    </label>
+                    <label class="pull-right">
+                        <a style="font-size:x-large !important;" onclick="enviarForm('{{funcionario.user_funcionario.first_name}} {{funcionario.user_funcionario.last_name}}')" class="btn btn-success btn-xs glyphicon glyphicon-ok" id="buscar" href="#" title="Historico rembolsos">
+                            <i class="fa fa-file-text" aria-hidden="true"></i>
+                        </a>
+                        <a style="font-size:x-large !important;" class="btn btn-danger  btn-xs glyphicon glyphicon-trash" href="#" title="Demitir funcionario">
+                            <i class="fa fa-user-times" aria-hidden="true"></i>
+                        </a>
+                    </label>
+                    <div class="break"></div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    </div>
+    </div>  
+</form>
+    <style>
+        .list-content{
+            min-height:300px;
+        }
+        .list-content .list-group .title{
+            background:#5bc0de;
+            border:2px solid #DDDDDD;
+            font-weight:bold;
+            color:#FFFFFF;
+        }
+        .list-group-item img {
+            height:80px; 
+            width:80px;
+        }
+
+        .jumbotron .btn {
+            padding: 5px 5px !important;
+            font-size: 12px !important;
+        }
+        .prj-name {
+            color:#5bc0de;    
+        }
+        .break{
+            width:100%;
+            margin:20px;
+        }
+        .name {
+            color:#5bc0de;    
+        }
+    </style>
+    <script>
+        function enviarForm(nome) {
+            botao_nome = document.getElementById('botao_nome')
+            botao_nome.value = nome
+            console.log(botao_nome.value)
+            document.getElementById("meuForm").submit();
+        }
+    </script>
+
+
+
+{% endblock 'body' %}    
+</html>
