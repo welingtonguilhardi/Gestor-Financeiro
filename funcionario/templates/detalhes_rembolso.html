@@ -1,0 +1,180 @@
+{% extends "base.html" %}
+<!DOCTYPE html>
+<html lang="pt-br">
+{% block head %}
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+
+{% endblock head %} 
+
+{% block 'body' %}
+
+
+
+
+    
+    <div class="container py-4 my-4 mx-auto d-flex flex-column">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert {{message.tags}}">
+                    {{message}}
+                </div>
+            {% endfor %}
+        {% endif %}
+        <div class="header">
+            <div class="row r1">
+                <div class="col-md-9 abc">
+                    <h1>Detalhes reembolso:</h1>
+                </div>
+                <div class="col-md-3 text-right pqr"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></div>
+            </div>
+        </div>
+        <div class="container-body mt-4">
+            <div class="row r3">
+                <div class="col-md-5 p-0 klo">
+                    <ul>
+                        <li>Funcionario: {{rembolso.user_funcionario.first_name}} {{rembolso.user_funcionario.last_name}}</li>
+                        <li>Local: {{rembolso.local}}</li>
+                        <li>Motivo: {{rembolso.motivo}}</li>
+                        <li>Valor a ser rembolsado: {{rembolso.preco}}</li>
+                        <li>Data do acotecido: {{rembolso.data_comprovante}}</li>
+                        <li>Status de pagamento: {% if rembolso.pago %}Pago{% else%} Não pago{% endif %}</li>
+                        <li>Data do registro: {{rembolso.data_criacao}}</li>
+
+                        {% if eh_empresa and not rembolso.pago %}
+                            <a href="{% url 'registrar_pagamento_reembolso' rembolso.pk %}" class="btn btn-outline-success">Registra como pago</a>
+                        {% else %}
+                            <a href="{% url 'retirar_pagamento_reembolso' rembolso.pk %}" class="btn btn-outline-danger">Registrar como não pago</a>
+                        {% endif %}
+                    </ul>
+                </div>
+                <div class="col-md-7"> <img src="/media/{{rembolso.foto_comprovante}}" width="90%" height="95%"> </div>
+            </div>
+        </div>
+    </div>
+    
+    <style>
+    
+    body {
+        background: #fc5356;
+        font-family: Arial, Helvetica, sans-serif
+    }
+    
+    .container {
+        background: #fff !important;
+        border-radius: 1rem;
+        border-color: #000;
+        border: solid;
+    }
+    
+    .abc {
+        padding-left: 40px
+    }
+    
+    .pqr {
+        padding-right: 70px;
+        padding-top: 14px
+    }
+    
+    .para {
+        float: right;
+        margin-right: 0;
+        padding-left: 80%;
+        top: 0
+    }
+    
+    .fa-star {
+        color: yellow
+    }
+    
+    li {
+        list-style: none;
+        line-height: 50px;
+        color: #000
+    }
+    
+    .col-md-2 {
+        padding-bottom: 20px;
+        font-weight: bold
+    }
+    
+    .col-md-2 a {
+        text-decoration: none;
+        color: #000
+    }
+    
+    .col-md-2.mio {
+        font-size: 12px;
+        padding-top: 7px
+    }
+    
+    .des::after {
+        content: '.';
+        font-size: 0;
+        display: block;
+        border-radius: 20px;
+        height: 6px;
+        width: 55%;
+        background: yellow;
+        margin: 14px 0
+    }
+    
+    .r4 {
+        padding-left: 25px
+    }
+    
+    .btn-outline-warning {
+        border-radius: 0;
+        border: 2px solid yellow;
+        color: #000;
+        font-size: 12px;
+        font-weight: bold;
+        width: 70%
+    }
+    
+    @media screen and (max-width: 620px) {
+        .container {
+            width: 98%;
+            display: flex;
+            flex-flow: column;
+            text-align: center
+        }
+    
+        .des::after {
+            content: '.';
+            font-size: 0;
+            display: block;
+            border-radius: 20px;
+            height: 6px;
+            width: 35%;
+            background: yellow;
+            margin: 10px auto
+        }
+    
+        .pqr {
+            text-align: center;
+            margin: 0 30px
+        }
+    
+        .para {
+            text-align: center;
+            padding-left: 90px;
+            padding-top: 10px
+        }
+    
+        .klo {
+            display: flex;
+            text-align: center;
+            margin: 0 auto;
+            margin-right: 40px
+        }
+    }
+    
+    </style>
+
+
+{% endblock 'body' %}    
+</html>

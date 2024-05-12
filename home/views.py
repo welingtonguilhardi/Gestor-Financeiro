@@ -10,7 +10,7 @@ from django.urls import reverse
 def home (request):
     
     if request.user.tipo_user == 'f':
-        return HttpResponse('Pagina home funcionario')
+        return redirect(reverse('home_funcionario'))
     elif request.user.tipo_user == 'e':
         return redirect(reverse('home_empresa'))
     else:

@@ -10,5 +10,11 @@ urlpatterns = [
     path('aceitar_vinculo/<int:id_vinculo>/',views.aceitar_vinculo, name='aceitar_vinculo'),
     path('negar_vinculo/<int:id_vinculo>/',views.negar_vinculo, name='negar_vinculo'),
     path('cadastrar_cargo/',views.cadastrar_cargo, name='cadastrar_cargo'),
+    path('registrar_pagamento_reembolso/<id_reembolso>',views.registrar_pagamento_reembolso, name='registrar_pagamento_reembolso'),
+    path('retirar_pagamento_reembolso/<id_reembolso>',views.retirar_pagamento_reembolso, name='retirar_pagamento_reembolso'),
+
+    
+    # API
+    path('cargos_disponiveis/<str:empresa_id>/',views.cargos_disponiveis, name='cargos_disponiveis'),
     
 ]

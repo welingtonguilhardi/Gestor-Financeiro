@@ -29,7 +29,7 @@
 </head>
     {% if user.tipo_user == 'e'%} <!--se o usuario estiver logado ele aparece a barra de navegação -->
         <nav style="background-color: #444;" class="mt-0 navbar navbar-expand-lg navbar-dark">
-        <a class="navbar-brand" href="#"><span class="font-degrade-nav">Trabalhos</span></a>
+        <a class="navbar-brand" href="#"><span class="font-degrade-nav">Reembolsi</span></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
         </button>
@@ -43,7 +43,18 @@
                 <a class="nav-link" href="{% url 'cadastrar_cargo' %}">CRIAR NOVOS CARGOS</a>
             </li>
             <li>
-                <a class="nav-link" href="">SAIR</a>
+                <a class="nav-link" href="{% url 'rembolsos_empresa' %}">HISTORICO DE REEMBOLSOS</a>
+            </li>
+            <li>
+                <a class="nav-link" href="{% url 'solicitacoes_vinculo' %}">SOLICITAÇÕES DE VINCULO</a>
+            </li>
+
+            <li>
+                <a class="nav-link" href="{% url 'funcionarios_empresa' %}">MEUS FUNCIONARIOS</a>
+            </li>
+
+            <li>
+                <a class="nav-link" href="{% url 'sair' %}">SAIR</a>
             </li>
       
         </ul>
@@ -53,31 +64,31 @@
 
     {% if user.tipo_user == 'f'%}
 
-        <nav style="background-color: #444;" class="navbar navbar-expand-lg navbar-dark">
-        <a class="navbar-brand" href="#"><span class="font-degrade-nav">Trabalhos</span></a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
-        <li class="nav-item active">
-        <a class="nav-link" href="">Encontrar Trabalhos</a>
-        </li>
-        <li>
-            <a class="nav-link" href="">Meu Perfil</a>
-        </li>
-        <li>
-            <a class="nav-link" href="/jobs/novo/">Criar Job</a>
-        </li>
-        <li>
-            <a class="nav-link" href="">Lista de todos Jobs</a>
-        </li>
-        <li>
-            <a class="nav-link" href="">Sair</a>
-        </li>
-      
-        </ul>
-        </div>
+        <nav style="background-color: #444;" class="mt-0 navbar navbar-expand-lg navbar-dark">
+            <a class="navbar-brand" href="#"><span class="font-degrade-nav">Reembolsi</span></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+
+                <li>
+                    <a class="nav-link" href="{% url 'home_funcionario' %}">HOME</a>
+                </li>
+                <li>
+                    <a class="nav-link" href="{% url 'rembolsos_funcionario' %}">MEUS REEMBOLSOS</a>
+                    
+                </li>
+                <li>
+                    <a class="nav-link" href="{% url 'cadastrar_rembolso' %}">CADASTRAR NOVO REEMBOLSO</a>
+                    
+                </li>
+                <li>
+                    <a class="nav-link" href="{% url 'sair' %}">SAIR</a>
+                </li>
+        
+            </ul>
+            </div>
         </nav>
 
 

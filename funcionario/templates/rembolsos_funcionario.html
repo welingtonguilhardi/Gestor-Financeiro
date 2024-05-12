@@ -60,11 +60,6 @@
                                     Filtros
                                 </div>
                                 <form action="" method="post">{% csrf_token %}
-                                    <div class="my-2">
-                                        <i class="fa fa-circle text-blue-m2 text-xs mr-1"></i> 
-                                        <span class="text-600 text-90">Nome:</span>
-                                        <input type="text" value="{{busca_nome}}" name="nome" placeholder="Busque por nome..." style="border-radius: 2vh;background-color: gainsboro;">
-                                    </div>
 
                                     <div class="my-2">
                                         <i class="fa fa-circle text-blue-m2 text-xs mr-1"></i> 
@@ -111,13 +106,15 @@
                                     </thead>
                                     <tbody>
                                         {% for rembolso in rembolsos %}
-                                        <tr>
-                                            <td>{{ rembolso.data_comprovante }}</td>
-                                            <td>{{ rembolso.user_funcionario.first_name }} {{ rembolso.user_funcionario.last_name }}</td>
-                                            <td>{{ rembolso.motivo }}</td>
-                                            <td>{% if rembolso.pago %}Pago{% else %}Não pago{% endif %}</td>
-                                            <td>R$ {{ rembolso.preco }}</td>
-                                        </tr>
+                                            <tr>
+                                                
+                                                    <td>{{ rembolso.data_comprovante }}</td>
+                                                    <td>{{ rembolso.user_funcionario.first_name }} {{ rembolso.user_funcionario.last_name }}</td>
+                                                    <td>{{ rembolso.motivo }}</td>
+                                                    <td>{% if rembolso.pago %}Pago{% else %}Não pago{% endif %}</td>
+                                                    <td>R$ {{ rembolso.preco }}</td>
+                                               
+                                            </tr>
                                         {% endfor %}
                                     </tbody>
                                 </table>
@@ -126,19 +123,18 @@
                         
                         <div class="d-none d-sm-block">
                             {% for rembolso in rembolsos %}
-                                <div class="text-95 text-secondary-d3"> 
-                                    <a href="{% url 'detalhes_rembolso' rembolso.pk %}">
-                                        <div class="row mb-2 mb-sm-0 py-25">
-
-                                                <div class="col-1">{{ rembolso.data_comprovante }}</div>
-                                                <div class="col-9 col-sm-5">{{ rembolso.user_funcionario.first_name }} {{ rembolso.user_funcionario.last_name }}</div>
-                                                <div class="col-2">{{ rembolso.motivo }}</div>
-                                                <div class="col-2 text-95">{% if rembolso.pago %}Pago{% else %}Não pago{% endif %}</div>
-                                                <div class="col-2 text-secondary-d2">R$ {{ rembolso.preco }}</div>
-                                            
-                                        </div>
-                                    </a>    
-                                </div>
+                            <div class="text-95 text-secondary-d3" >
+                                <a href="{% url 'detalhes_rembolso' rembolso.pk %}">
+                                    <div class="row mb-2 mb-sm-0 py-25">
+                                        <div class="col-1">{{ rembolso.data_comprovante }}</div>
+                                        <div class="col-9 col-sm-5">{{ rembolso.user_funcionario.first_name }} {{ rembolso.user_funcionario.last_name }}</div>
+                                        <div class="col-2">{{ rembolso.motivo }}</div>
+                                        <div class="col-2 text-95">{% if rembolso.pago %}Pago{% else %}Não pago{% endif %}</div>
+                                        <div class="col-2 text-secondary-d2">R$ {{ rembolso.preco }}</div>
+                                    
+                                    </div>
+                                </a>
+                            </div>
                             {% endfor %}
                         </div>
                         
@@ -178,6 +174,11 @@
 
 
     <script>
+
+        function detalhes_rembolso(){
+            console.log('chamei aqui')
+        }
+
         document.addEventListener('keydown', function(event) {
             if (event.key === "Enter") {
                 document.querySelector('form').submit();

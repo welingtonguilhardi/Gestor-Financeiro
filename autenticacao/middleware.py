@@ -1,7 +1,7 @@
 # middleware.py
 from django.shortcuts import redirect
 from django.urls import reverse
-from empresa.models import Cargo
+from empresa.models import Cargo, Funcionario
 
 class VerificarUserTipoMiddleware:
     def __init__(self, get_response):
@@ -29,6 +29,18 @@ class VerificarUserTipoMiddleware:
             
             #Verificando se empresa tem pelo menos 1 cargo criado
             elif len(cargos) < 1:
-                return redirect(reverse('cadastrar_cargo'))            
+                return redirect(reverse('cadastrar_cargo'))
+            
+        elif tipo_user == 'f':
+            funcionario = Funcionario.objects.filter(user_funcionario = request.user,status = 'A',aceito = True)
+            
+            # Verificando se usuario está na pagina de cadastro de vinculo com empresa 
+            if request.path == reverse('solicitar_vinculo'):
+                return self.get_response(request)
+            
+            #Verificando se funcionario não é vinculado a uma empresa
+            elif len(funcionario) < 1:
+                return redirect(reverse('solicitar_vinculo'))
+            
             
         return self.get_response(request)

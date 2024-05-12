@@ -3,10 +3,14 @@ from decimal import Decimal
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
+import requests
+from django.http import JsonResponse
+
 
 from django.contrib import messages 
 from django.contrib.messages import constants
 
+from autenticacao.models import Users
 from empresa.models import Cargo, Funcionario
 from django.db.models import Q,Sum
 from django.utils import timezone
@@ -57,7 +61,9 @@ def rembolsos_empresa(request):
             rembolsos = Rembolso.objects.filter(
                 Q(user_funcionario__first_name__icontains=input_nome) |
                 Q(user_funcionario__last_name__icontains=input_nome) |
-                Q(user_funcionario__first_name__icontains=input_nome.split()[0], user_funcionario__last_name__icontains=input_nome.split()[1])
+                Q(user_funcionario__first_name__icontains=input_nome.split()[0],user_funcionario__last_name__icontains=input_nome.split()[1]),
+                user_empresa=request.user,
+
             )
             busca_nome = input_nome.split()[0] + " " + input_nome.split()[1]
             print('Buscou apenas por nome')
@@ -76,7 +82,10 @@ def rembolsos_empresa(request):
             input_pago = False
             
             # Pegando rembolsos não pagos 
-            rembolsos = Rembolso.objects.filter(user_empresa = request.user, pago = input_pago)
+            rembolsos = Rembolso.objects.filter(
+                user_empresa = request.user,
+                pago = input_pago
+                )
         
         #Pegando valor total de rembolsos não pagos
         valor_total = rembolsos.aggregate(total=Sum('preco'))['total']
@@ -104,18 +113,27 @@ def rembolsos_empresa(request):
             rembolsos = Rembolso.objects.filter(
                 Q(user_funcionario__first_name__icontains=input_nome) |
                 Q(user_funcionario__last_name__icontains=input_nome) |
-                Q(user_funcionario__first_name__icontains=input_nome.split(), user_funcionario__last_name__icontains=input_nome.split())
+                Q(user_funcionario__first_name__icontains=input_nome.split(), user_funcionario__last_name__icontains=input_nome.split()),
+                user_empresa=request.user,
+
             )
             print('Buscou apenas por nome')
             
         elif input_data and not input_nome and input_pago is None:
             # Convertendo a entrada de mês/ano para uma data completa (primeiro dia do mês)
             data_completa = timezone.datetime.strptime(input_data, '%Y-%m')
-            rembolsos = Rembolso.objects.filter(data_comprovante__year=data_completa.year, data_comprovante__month=data_completa.month)
+            rembolsos = Rembolso.objects.filter(
+                    user_empresa=request.user,
+                    data_comprovante__year=data_completa.year,
+                    data_comprovante__month=data_completa.month
+                )
             print('Buscou apenas por mês/ano')
             
         elif input_pago is not None and not input_nome and not input_data:
-            rembolsos = Rembolso.objects.filter(pago=input_pago)
+            rembolsos = Rembolso.objects.filter(
+                user_empresa=request.user,
+                pago=input_pago
+                )
             print('Buscou apenas por status')
             
         elif input_nome and input_data and input_pago is None:
@@ -124,9 +142,13 @@ def rembolsos_empresa(request):
             rembolsos = Rembolso.objects.filter(
                 Q(user_funcionario__first_name__icontains=input_nome) |
                 Q(user_funcionario__last_name__icontains=input_nome) |
-                Q(user_funcionario__first_name__icontains=input_nome.split(), user_funcionario__last_name__icontains=input_nome.split())
+                Q(user_funcionario__first_name__icontains=input_nome.split(),user_funcionario__last_name__icontains=input_nome.split()),
+                user_empresa=request.user,
             )
-            rembolsos = rembolsos.filter(data_comprovante__year=data_completa.year, data_comprovante__month=data_completa.month)
+            rembolsos = rembolsos.filter(
+                data_comprovante__year=data_completa.year,
+                data_comprovante__month=data_completa.month
+                )
             print('Buscou por nome e mês/ano')
             
         elif input_nome and input_pago is not None and not input_data:
@@ -135,14 +157,20 @@ def rembolsos_empresa(request):
                 Q(user_funcionario__first_name__icontains=input_nome) |
                 Q(user_funcionario__last_name__icontains=input_nome) |
                 Q(user_funcionario__first_name__icontains=input_nome.split(), user_funcionario__last_name__icontains=input_nome.split()),
-                pago=input_pago
+                pago=input_pago,
+                user_empresa=request.user
             )
             print('Buscou por nome e status')
             
         elif input_data and input_pago is not None and not input_nome:
             # Convertendo a entrada de mês/ano para uma data completa (primeiro dia do mês)
             data_completa = timezone.datetime.strptime(input_data, '%Y-%m')
-            rembolsos = Rembolso.objects.filter(data_comprovante__year=data_completa.year, data_comprovante__month=data_completa.month, pago=input_pago)
+            rembolsos = Rembolso.objects.filter(
+                data_comprovante__year=data_completa.year,
+                data_comprovante__month=data_completa.month,
+                pago=input_pago,
+                user_empresa=request.user,
+                )
             print('Buscou por mês/ano e status')
             
         elif input_nome and input_data and input_pago is not None:
@@ -152,13 +180,16 @@ def rembolsos_empresa(request):
                 Q(user_funcionario__first_name__icontains=input_nome) |
                 Q(user_funcionario__last_name__icontains=input_nome) |
                 Q(user_funcionario__first_name__icontains=input_nome.split(), user_funcionario__last_name__icontains=input_nome.split()),
-                data_comprovante__year=data_completa.year, data_comprovante__month=data_completa.month, pago=input_pago
+                data_comprovante__year=data_completa.year, 
+                data_comprovante__month=data_completa.month, 
+                pago=input_pago,
+                user_empresa=request.user,
             )
             print('Buscou por nome, mês/ano e status')
             
         elif input_nome == '' and input_data == '' and input_pago is None:
             # Quando nenhum filtro é aplicado
-            rembolsos = Rembolso.objects.all()
+            rembolsos = Rembolso.objects.filter(user_empresa=request.user)
             print('Buscou por qualquer combinação de nome, mês/ano e status')
             
         else:
@@ -228,3 +259,41 @@ def cadastrar_cargo (request):
             messages.add_message(request, constants.ERROR, 'Erro inesperado ao tentar salvar cargo') 
     
     return render(request,'cadastrar_cargo.html')
+
+def registrar_pagamento_reembolso(request,id_reembolso):
+    try:
+        reembolso = Rembolso.objects.get(pk=id_reembolso,user_empresa = request.user)
+        reembolso.pago = True
+        reembolso.save()
+        messages.add_message(request, constants.SUCCESS, 'Reembolso setado com pago') 
+
+    except Exception as e:
+        print(e)
+        messages.add_message(request, constants.ERROR, 'Erro inesperado ao tentar salvar reembolso como pago') 
+    return redirect(reverse('detalhes_rembolso', kwargs={'id_rembolso': id_reembolso}))
+
+def retirar_pagamento_reembolso(request,id_reembolso):
+    try:
+        reembolso = Rembolso.objects.get(pk=id_reembolso,user_empresa = request.user)
+        reembolso.pago = False
+        reembolso.save()
+        messages.add_message(request, constants.SUCCESS, 'Reembolso setado com não pago') 
+
+    except Exception as e:
+        print(e)
+        messages.add_message(request, constants.ERROR, 'Erro inesperado ao tentar salvar reembolso como pago') 
+    return redirect(reverse('detalhes_rembolso', kwargs={'id_rembolso': id_reembolso}))
+
+
+# API
+
+from django.core import serializers
+
+def cargos_disponiveis(request, empresa_id):
+    user_empresa = Users.objects.get(pk=empresa_id)
+    cargos_disponiveis = Cargo.objects.filter(user_empresa=user_empresa)
+    
+    # Serializar o QuerySet para JSON
+    cargos_json = [{'cargo': instancia_cargo.cargo,'id':instancia_cargo.pk} for instancia_cargo in cargos_disponiveis]
+    print(cargos_json)
+    return JsonResponse(cargos_json, safe=False)

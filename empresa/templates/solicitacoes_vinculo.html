@@ -42,7 +42,7 @@
                     <input class="form-control" name = 'busca_nome'type="text" placeholder="Busque funcionario por nome">
                 </form>
             </li>
-            {% if solicitacao %}
+            
               
                 <li class="list-group-item text-left mt-2">
                     {% for solicitacao in solicitacoes  %}
@@ -56,7 +56,7 @@
                                     <br>
                                     <label class="name">CPF: {{solicitacao.user_funcionario.username}}</label>
                                     <br>
-                                    <label class="name">Cargo: {{solicitacao.cargo}}</label>
+                                    <label class="name">Cargo: {{solicitacao.cargo.cargo}}</label>
                                 </div>
                                 <div class="col-md-4 text-right">
                                     <a style="font-size:x-large !important;" class="btn btn-success btn-xs" href="{% url 'aceitar_vinculo' solicitacao.pk %}" title="Aceitar vinculo">
@@ -70,7 +70,7 @@
                         
                     {% endfor %}
                 </li>
-            {% endif %}
+            
 
         </ul>
     </div>
