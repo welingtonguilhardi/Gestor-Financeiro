@@ -12,6 +12,9 @@ class VerificarUserTipoMiddleware:
         if not request.user.is_authenticated:
             return self.get_response(request)
         
+        if request.path == reverse('sair'):
+                return self.get_response(request)
+        
 
         
         tipo_user = request.user.tipo_user
