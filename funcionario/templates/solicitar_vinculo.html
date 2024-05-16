@@ -14,6 +14,12 @@
             {% for message in messages %}
                <div class="alert {{message.tags}}">
                   {{message}}
+                  
+                  {% if solicitacao and solicitacao.status == 'E'%}
+                     <a href="{% url 'cancelar_solicitacao' %}">Cancelar solicitação</a>
+                    
+                  {% endif %}
+
                </div>
             {% endfor %}
          {% endif %}

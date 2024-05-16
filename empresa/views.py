@@ -227,9 +227,7 @@ def negar_vinculo (request,id_vinculo):
     
     try:
         funcionario = Funcionario.objects.get(pk = id_vinculo, user_empresa = request.user)
-        funcionario.aceito = False
-        funcionario.status = 'N'
-        funcionario.save()
+        funcionario.delete()
         messages.add_message(request, constants.SUCCESS, 'Funcionario recusado com sucesso') 
 
     except Exception as e:

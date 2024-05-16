@@ -19,12 +19,14 @@ def home_funcionario (request):
 def solicitar_vinculo (request):
     
     
+    solictacao = None
+    
     # Verificando se já existe uma solitação feita
     try:
         solictacao = Funcionario.objects.get(user_funcionario = request.user)
     
         if solictacao.status == 'E':
-            return HttpResponse('Aguarde sua solicitação ser respondida')
+            messages.add_message(request, constants.WARNING, f'Aguarde sua solicitação para empresa {solictacao.user_empresa.first_name} ser respondida') 
         elif solictacao.status == 'A':
             messages.add_message(request, constants.ERROR, 'Você já faz parte de uma empresa') 
             return redirect(reverse('home'))
@@ -47,12 +49,20 @@ def solicitar_vinculo (request):
                 cargo = cargo_empresa,
             )
             messages.add_message(request, constants.SUCCESS, 'Solicitação enviada com sucesso') 
-        except:
-            messages.add_message(request, constants.ERROR, 'Erro inesperado ao tentar enviar solicitação') 
+        except Exception as e:
+            print(e)
+            messages.add_message(request, constants.ERROR, 'Você já tem uma solicitação em andamento') 
     
-    return render(request, 'solicitar_vinculo.html',{'empresas':empresas})
+    return render(request, 'solicitar_vinculo.html',{'empresas':empresas, 'solicitacao':solictacao})
 
+def cancelar_solicitacao (request):
+    try:
+        Funcionario.objects.get(user_funcionario = request.user).delete()
+        messages.add_message(request, constants.SUCCESS, 'Solicitação cancelada') 
+    except:
+        messages.add_message(request, constants.ERROR, 'Rrro ao tentar cancelar solicitação') 
 
+    return redirect(reverse('home'))
 
 def cadastrar_rembolso(request):
     
