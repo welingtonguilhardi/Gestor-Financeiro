@@ -45,7 +45,13 @@
          const cargoDropdown = document.getElementById("cargo_select");
 
          if (empresa_id) {
-            fetch(`/empresa/cargos_disponiveis/${empresa_id}/`)
+            fetch(`/empresa/cargos_disponiveis/${empresa_id}/`, {
+               headers: {
+                  'X-Requested-With': 'fetch',
+                  'Accept': 'application/json'
+               }
+            })
+
                .then(response => response.json())
                .then(data => {
                   cargoDropdown.innerHTML = "";

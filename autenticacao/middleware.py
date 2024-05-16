@@ -15,6 +15,8 @@ class VerificarUserTipoMiddleware:
         if request.path == reverse('sair'):
                 return self.get_response(request)
         
+        if 'fetch' in request.META.get('HTTP_X_REQUESTED_WITH', ''):
+            return self.get_response(request)
 
         
         tipo_user = request.user.tipo_user
