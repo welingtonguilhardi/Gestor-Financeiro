@@ -53,7 +53,7 @@
                         <a style="font-size:x-large !important;" onclick="enviarForm('{{funcionario.user_funcionario.first_name}} {{funcionario.user_funcionario.last_name}}')" class="btn btn-success btn-xs glyphicon glyphicon-ok" id="buscar" href="#" title="Historico reembolsos">
                             <i class="fa fa-file-text" aria-hidden="true"></i>
                         </a>
-                        <a style="font-size:x-large !important;" class="btn btn-danger  btn-xs glyphicon glyphicon-trash" href="#" title="Demitir funcionario">
+                        <a style="font-size:x-large !important;" class="btn btn-danger  btn-xs glyphicon glyphicon-trash" href="{% url 'demitir_funcionario' funcionario.pk %}" title="Demitir funcionario">
                             <i class="fa fa-user-times" aria-hidden="true"></i>
                         </a>
                     </label>

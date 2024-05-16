@@ -235,6 +235,17 @@ def negar_vinculo (request,id_vinculo):
 
     return redirect(reverse('solicitacoes_vinculo')) 
 
+def demitir_funcionario (request,id_vinculo):
+    
+    try:
+        funcionario = Funcionario.objects.get(pk = id_vinculo, user_empresa = request.user)
+        funcionario.delete()
+        messages.add_message(request, constants.SUCCESS, 'Funcionario demitido com sucesso') 
+
+    except Exception as e:
+        messages.add_message(request, constants.ERROR, f'Erro ao tentar demitir usuario: {e}') 
+
+    return redirect(reverse('funcionarios_empresa')) 
 
 def cadastrar_cargo (request):
     
