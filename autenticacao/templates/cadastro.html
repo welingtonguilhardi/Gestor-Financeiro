@@ -32,12 +32,12 @@
          <input type="email" value="{{email}}" class="form-control input-cadastro" name="email">
          <br>
 
-         <span class="span-descricao">Primeiro nome</span>
+         <span class="span-descricao" id="nome">Primeiro nome</span>
          <input type="text" value="{{first_name}}" class="form-control input-cadastro" name="first_name">
          <br>
 
-         <span class="span-descricao">Sobrenome</span>
-         <input type="text" value="{{last_name}}" class="form-control input-cadastro" name="last_name">
+         <span class="span-descricao" id="sobrenome">Sobrenome</span>
+         <input type="text" value="{{last_name}}" class="form-control input-cadastro" name="last_name" id="last_name">
          <br>
          
          <span class="span-descricao">Senha:</span>
@@ -59,7 +59,9 @@
    <script>
 
 function formatCPF_CNPJ(input) {
-
+   let nome = document.getElementById('nome');
+   let sobrenome = document.getElementById('sobrenome');
+   let input_sobrenome = document.getElementById('last_name');
 
    if (input.value.length > 14) {
       input.value = input.value
@@ -69,6 +71,11 @@ function formatCPF_CNPJ(input) {
          .replace(/(\d{3})(\d)/, '$1/$2')
          .replace(/(\d{4})(\d{1,2})/, '$1-$2')
          .replace(/(-\d{2})\d+?$/, '$1');
+
+         input_sobrenome.style.display = 'none';
+         sobrenome.style.display = 'none';
+
+         nome.innerText = 'Razão social';
    }else {
       input.value = input.value
       .replace(/\D/g, '')
@@ -76,7 +83,21 @@ function formatCPF_CNPJ(input) {
       .replace(/(\d{3})(\d)/, '$1.$2')
       .replace(/(\d{3})(\d{1,2})/, '$1-$2')
       .replace(/(-\d{2})\d+?$/, '$1');
+
+      input_sobrenome.style.display = 'block';
+      sobrenome.style.display = 'block';
+
+      nome.innerText = 'Primeiro nome';
+
       }
+
+   
+
    }
+
+   document.addEventListener('DOMContentLoaded', function() {
+      let usernameInput = document.getElementById('username');
+      formatCPF_CNPJ(usernameInput);
+   });
    </script>
 {% endblock %}
