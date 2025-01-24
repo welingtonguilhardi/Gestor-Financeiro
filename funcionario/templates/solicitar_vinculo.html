@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block 'head' %}
+   <link rel="stylesheet" href="{% static 'autenticacao/cadastro.css' %}">
+{% endblock %}
+
+{% block 'body' %}
+   <div class="container m-5 mx-auto">
+      <form action="" method="POST"> {% csrf_token %}
+         <h1 class="titulo font-degrade borda-bottom-degrade">Solicitar vinculo empresa</h1>
+         <br>
+         <!-- Tratamento de erros - para mais informações, consulte o settings.py e procure por mensagens de erros  -->    
+         {% if messages %}
+            {% for message in messages %}
+               <div class="alert {{message.tags}}">
+                  {{message}}
+                  
+                  {% if solicitacao and solicitacao.status == 'E'%}
+                     <a href="{% url 'cancelar_solicitacao' %}">Cancelar solicitação</a>
+                    
+                  {% endif %}
+
+               </div>
+            {% endfor %}
+         {% endif %}
+         
+         <div>
+            <label for="empresa">Empresa:</label>
+            <select class="uf form-control" name="empresa" id="empresa">
+               <option selected value="">Escolha uma empresa</option>
+               {% for empresa in empresas %}
+                  <option value="{{empresa.pk}}">{{empresa.first_name}} {{empresa.last_name}}</option>
+               {% endfor %}
+            </select>
+         </div>
+         <br>
+         <div>
+            <label for="cargo_select">Cargo:</label>
+            <select class="uf form-control" name="cargo_select" id="cargo_select">
+               <option selected value="">Escolha um cargo</option>
+            </select>
+         </div>
+         <br>
+         <button type="submit" class="btn btn-success btn-lg btn-block">Solicitar</button>
+      </form>
+   </div>
+
+   <script>
+      document.getElementById("empresa").addEventListener("change", function() {
+         const empresa_id = this.value;
+         const cargoDropdown = document.getElementById("cargo_select");
+
+         if (empresa_id) {
+            fetch(`/empresa/cargos_disponiveis/${empresa_id}/`, {
+               headers: {
+                  'X-Requested-With': 'fetch',
+                  'Accept': 'application/json'
+               }
+            })
+
+               .then(response => response.json())
+               .then(data => {
+                  cargoDropdown.innerHTML = "";
+                  data.forEach(cargo => {
+                     const option = document.createElement("option");
+                     option.value = cargo.id;
+                     option.text = cargo.cargo;
+                     cargoDropdown.appendChild(option);
+                  });
+               })
+               .catch(error => console.error('Erro:', error));
+         } else {
+            cargoDropdown.innerHTML = '<option selected value="">Escolha um cargo</option>';
+         }
+      });
+   </script>
+
+{% endblock %}

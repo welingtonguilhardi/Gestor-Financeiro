@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block 'head' %}
+<link rel="stylesheet" href="{% static 'autenticacao/cadastro.css' %}">
+{% endblock %}
+{% block 'body' %}
+  <div class="box">
+    <form action="{% url 'logar' %}" method="post">{% csrf_token %}
+
+
+      <h1 class="titulo font-degrade borda-bottom-degrade">LOGAR</h1>
+      <br>
+
+      {% if messages %}
+        {% for message in messages %}
+          <div class="alert {{message.tags}}">
+            {{message}}
+          </div>
+        {% endfor %}
+      {% endif %}
+
+      <span class="span-descricao">CPF/CNPJ</span>
+      <input type="text" class="form-control input-cadastro" name="username" placeholder="Digite CPF ou CNPJ" maxlength="18" oninput="formatCPF_CNPJ(this)">
+      <br>
+      <span class="span-descricao">Senha:</span>
+      <input type="password" class="form-control input-cadastro" name="password">
+      <a href="{% url 'password_reset' %}" >Esqueci minha senha</a>
+      <br>
+      <input type="submit" value="LOGAR" class="btn btn-success btn-lg">
+      <a href="{% url 'cadastro' %}" class="btn btn-primary btn-lg">CADASTRO</a>
+
+    </form>
+  </div>
+
+
+  <script>
+    function formatCPF_CNPJ(input) {
+
+
+    if (input.value.length > 14) {
+      input.value = input.value
+            .replace(/\D/g, '')
+            .replace(/(\d{2})(\d)/, '$1.$2')
+            .replace(/(\d{3})(\d)/, '$1.$2')
+            .replace(/(\d{3})(\d)/, '$1/$2')
+            .replace(/(\d{4})(\d{1,2})/, '$1-$2')
+            .replace(/(-\d{2})\d+?$/, '$1');
+      }else {
+        input.value = input.value
+        .replace(/\D/g, '')
+        .replace(/(\d{3})(\d)/, '$1.$2')
+        .replace(/(\d{3})(\d)/, '$1.$2')
+        .replace(/(\d{3})(\d{1,2})/, '$1-$2')
+        .replace(/(-\d{2})\d+?$/, '$1');
+        }
+      }
+  </script>
+{% endblock %}

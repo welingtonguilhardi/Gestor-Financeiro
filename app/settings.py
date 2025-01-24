@@ -1,5 +1,6 @@
 from pathlib import Path
 import os
+from django.contrib import messages
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,6 +27,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'autenticacao',
+    'home',
+    'empresa',
+    'funcionario',
 ]
 
 MIDDLEWARE = [
@@ -36,6 +41,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'autenticacao.middleware.VerificarUserTipoMiddleware',
 ]
 
 ROOT_URLCONF = 'app.urls'
@@ -110,7 +116,28 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR,"templates/static")
 ]
 
+# Configurações de mídia
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Config auth django
+
+AUTH_USER_MODEL = "autenticacao.Users"
+
+
+# Django message
+
+MESSAGE_TAGS = {
+    messages.ERROR: 'alert alert-danger',  # aqui vc declara o nome da sua classe
+    messages.DEBUG: 'alert alert-primary',
+    messages.SUCCESS: 'alert alert-success',
+    messages.WARNING: 'alert alert-warning',
+}
+
+# Enviar email
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' #simulação de backend email

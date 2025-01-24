@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block 'head' %}
+    <link rel="stylesheet" href="{% static 'autenticacao/cadastro.css' %}">
+{% endblock %}
+
+{% block 'body' %}
+
+<script>
+    function moeda(a, e, r, t) {
+
+    if(a.value.replace(/[^\d]/g, '').length > a.getAttribute("maxlength")-1)
+    return
+
+    let n = ""
+    , h = j = 0
+    , u = tamanho2 = 0
+    , l = ajd2 = ""
+    , o = window.Event ? t.which : t.keyCode;
+    if (13 == o || 8 == o)
+        return !0;
+    if (n = String.fromCharCode(o),
+    -1 == "0123456789".indexOf(n))
+        return !1;
+    for (u = a.value.length,
+    h = 0; h < u && ("0" == a.value.charAt(h) || a.value.charAt(h) == r); h++)
+        ;
+    for (l = ""; h < u; h++)
+        -1 != "0123456789".indexOf(a.value.charAt(h)) && (l += a.value.charAt(h));
+    if (l += n,
+    0 == (u = l.length) && (a.value = ""),
+    1 == u && (a.value = "0" + r + "0" + l),
+    2 == u && (a.value = "0" + r + l),
+    u > 2) {
+        for (ajd2 = "",
+        j = 0,
+        h = u - 3; h >= 0; h--)
+            3 == j && (ajd2 += e,
+            j = 0),
+            ajd2 += l.charAt(h),
+            j++;
+        for (a.value = "",
+        tamanho2 = ajd2.length,
+        h = tamanho2 - 1; h >= 0; h--)
+            a.value += ajd2.charAt(h);
+        a.value += r + l.substr(u - 2, u)
+        
+    }
+    return !1
+    }
+  </script>
+
+    <div class="container m-5 mx-auto">
+        <form action="" method="POST" enctype="multipart/form-data"> {% csrf_token %}
+            <h1 class="titulo font-degrade borda-bottom-degrade">Cadastro de reembolso</h1>
+            <br>
+            <!-- Tratamento de erros - para mais informações, consulte o settings.py e procure por mensagens de erros  -->    
+            {% if messages %}
+            {% for message in messages %}
+                <div class="alert {{message.tags}}">
+                    {{message}}
+                </div>
+            {% endfor %}
+            {% endif %}
+            <span class="span-descricao">Nome estabelecimento:</span>
+            <input class="form-control mt-2 mb-2" type="text" name="local" id="" placeholder="Ex: Posto são jorge">
+
+
+            <span class="span-descricao">Motivo do gasto:</span>
+            <input class="form-control mt-2 mb-2" type="text" name="motivo" id="" placeholder="Ex: Encher o tanque">
+            
+
+            <label>Valor gasto: (R$)</label><br/>
+            <input name="preco" type="text" class="form-control" required maxlength="15" onkeypress="return(moeda(this,'.',',',event))">
+
+
+            <span class="span-descricao">Foto do comprovante:</span>
+            <input class="form-control mt-2 mb-2" type="file" name="foto_comprovante" id="">
+
+            <span class="span-descricao">Data e hora:</span>
+            <input class="form-control mt-2 mb-2" type="datetime-local" name="data_hora" id="" timezone ='UTC'>
+                
+
+            <button type="submit" class="btn btn-success btn-lg btn-block">Cadatrar</button>
+
+        </form>
+    </div>
+
+
+
+{% endblock %}

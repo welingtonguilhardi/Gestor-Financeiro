@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block 'head' %}
+   <link rel="stylesheet" href="{% static 'autenticacao/cadastro.css' %}">
+{% endblock %}
+
+{% block 'body' %}
+   <div class="container  m-5 mx-auto">
+      <form action=""method="POST"> {% csrf_token %}
+
+
+         
+            
+
+
+         <h1 class="titulo font-degrade borda-bottom-degrade">Cadastro de cargo</h2>
+         <br>
+         <!-- tratamento de erros para mais informações acessar o settings.py e procurar por mensagens de erros  -->    
+         {% if messages %}
+            {% for message in messages %}
+               <div class="alert {{message.tags}}">
+                  {{message}}
+               </div>
+            {% endfor %}
+         {% endif %}
+         
+         <span class="span-descricao">Cargo:</span>
+         <input type="text" value="{{cargo}}" id="cargo" name="cargo" class="form-control input-cadastro"  placeholder="Digite nome do cargo" >
+         <br>
+         
+         <button type="submit" class="btn btn-success btn-lg btn-block">Cadastrar</a>
+      
+      </form>
+   </div>
+
+
+
+{% endblock %}
