@@ -5,6 +5,9 @@ from autenticacao.models import Users
 class Cargo (models.Model):
     user_empresa = models.ForeignKey(Users, on_delete=models.CASCADE, related_name='empresa_cargos')
     cargo = models.CharField(max_length=150)
+    
+    def __str__(self):
+        return f'{self.user_empresa.username} | Cargo: {self.cargo}'
 
 class Funcionario (models.Model):
     
