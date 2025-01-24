@@ -52,7 +52,7 @@ echo Realizando as migrações do banco de dados...
 python manage.py migrate
 
 REM Cria um superusuario
-echo from autenticacao.models import Users; from empresa.models import Cargo; superuser = Users.objects.create_superuser('admin', 'admin@example.com', 'admin', tipo_user='e'); Cargo.objects.create(user_empresa=superuser, cargo='Dono') | python manage.py shell
+echo from autenticacao.models import Users; from empresa.models import Cargo; superuser = Users.objects.create_superuser('admin', 'admin@example.com', 'admin', tipo_user='e',first_name='Empresa', last_name='Superusuário'); Cargo.objects.create(user_empresa=superuser, cargo='Dono') | python manage.py shell
 echo Superusuário criado com sucesso!
 
 
