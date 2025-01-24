@@ -1,43 +1,94 @@
-# Gestor de reembolsos 
+# **Gestor de Reembolsos**
 
-## 📝 Descrição
-Projeto desenvolvido para equipe de colegas apresentarem na minha faculdade Unifacemp.
-O projeto tem o objetivo em gerenciar reembolsos de funcionarios para sua empresa. O projeto conta com 2 tipos de usuarios: Empresa ou Funcionario.
+## 📝 **Descrição**  
+O **Gestor de Reembolsos** é um sistema desenvolvido para facilitar a gestão de reembolsos de funcionários por parte de empresas.  
+Este projeto foi criado como parte de uma apresentação acadêmica para a faculdade **Unifacemp** e conta com dois tipos de usuários: **Empresa** e **Funcionário**.
 
-Na visão da empresa: o usuario tem o poder de aceitar solicitações de vinculos de funcionario, o usuario tem a capacidade de gerenciar seus funcionario que já foram aceitos, é possivel demitir usuarios que estão vinculados como funcionario a sua empresa, é possivel verificar o historico especifico de um funcionario ou geral de todos funcionario, na aréa de historioco de reebolsos é possivel filtrar por: data,nome ou status de pago ou não, além de ter o valor total devedor dos resultados obitidos, caso clique sobre a linha do reembolso aparecerá detalhes do reembolso como: nome do funcionario, local, motivo, valor, data e hora e status .
+### **Visão da Empresa**  
+- **Gerenciamento de Solicitações de Funcionários:**  
+  - Aceitar ou rejeitar solicitações de vínculo enviadas por funcionários.  
+- **Gerenciamento de Funcionários Vinculados:**  
+  - Visualizar a lista de funcionários vinculados à empresa.  
+  - Demitir funcionários vinculados.  
+- **Histórico de Reembolsos:**  
+  - Consultar o histórico geral de reembolsos ou histórico específico por funcionário.  
+  - Filtrar reembolsos por **data**, **nome do funcionário** ou **status de pagamento** (pago ou não).  
+  - Visualizar o valor total devido com base nos filtros aplicados.  
+  - Obter detalhes específicos ao clicar em um reembolso, como:  
+    - Nome do funcionário.  
+    - Local e motivo do reembolso.  
+    - Valor.  
+    - Data e hora.  
+    - Status do pagamento.
 
-Na visão do funcionario: assim que o usuario criar sua conta ele será obrigado a solicitar um vinculo com uma empresa e assim esperar a resposta da tal empresa, caso seja enviado para uma empresa errada é possivel cancelar a solicitação e enviar novamente uma solitação, após um funcionario ser aceito ele será capaz de: verificar todos reembolsos com a filtragem de data e status de pago ou não com a soma do valor pendente e tambem consiguirá cadastrar novos reembolsos.
+### **Visão do Funcionário**  
+- **Solicitação de Vínculo com Empresa:**  
+  - Ao criar uma conta, o funcionário precisa solicitar vínculo com uma empresa.  
+  - É possível cancelar uma solicitação e enviá-la para outra empresa, caso necessário.  
+- **Gerenciamento de Reembolsos:**  
+  - Consultar todos os reembolsos cadastrados.  
+  - Filtrar reembolsos por **data** e **status de pagamento**.  
+  - Verificar o valor total pendente.  
+  - Cadastrar novos reembolsos com as informações necessárias.  
 
-## 🎯 Funcionalidades
-- [x] Controle de reembolsos para funcionario e empresa
-- [x] Controle de funcionarios cadastrados
+---
 
-## 🚀 Tecnologias
-As principais tecnologias utilizadas no projeto:
-- [Python](https://docs.python.org/3/)
-- [Django](https://docs.djangoproject.com/en/5.1/)
-- [Bootstrap](https://getbootstrap.com/docs/5.0/getting-started/introduction/)
+## 🎯 **Funcionalidades**  
+- ✅ Controle de reembolsos para funcionários e empresas.  
+- ✅ Gerenciamento de funcionários vinculados a uma empresa.  
 
-## 💾 Instalação para windows
+---
 
-1. Certifique-se que o git esteja instalado na sua maquina.
-2. Caso esteja, abra seu prompt de comandos, navegue ate a pasta que deseja instalar o projeto.
-3. Rode o comando: ```git clone https://github.com/welingtonguilhardi/Gestor-Financeiro.git```
-4. Vá até o caminho onde o repositorio foi clonado e abra a pasta Gestor-Financeiro .
-5. Procure por um aquivo .bat chamado install clique nele e aguarde a mensagem Pressione qualquer tecla para continuar. . .
-6. Após o passo 5 o projeto já está instalado localmente na sua maquina, para iniciar clique no arquivo .bat chamado start.
-7. Assim que abrir o arquivo .bat espere aparecer:
-  Django version 5.0.6, using settings 'app.settings'
-  Starting development server at http://127.0.0.1:8000/
-  Quit the server with CTRL-BREAK.
+## 🚀 **Tecnologias Utilizadas**  
+As principais tecnologias empregadas no desenvolvimento deste projeto são:  
+- [Python](https://docs.python.org/3/)  
+- [Django](https://docs.djangoproject.com/en/5.1/)  
+- [Bootstrap](https://getbootstrap.com/docs/5.0/getting-started/introduction/)  
 
-8. Segure o botão ctrl e clique sobre o link http://127.0.0.1:8000/.
+---
 
-## 📄 Licença
-Este projeto está sob a licença MIT.
+## 💾 **Instalação no Windows**
 
-## 👤 Autor
-Welington Argolo Guilhardi
+1. **Verifique a instalação do Git:**  
+   - Certifique-se de que o Git está instalado em sua máquina. Caso não esteja, instale-o a partir do [site oficial](https://git-scm.com/).  
 
-- [GitHub](https://github.com/welingtonguilhardi/)
-- [LinkedIn](https://www.linkedin.com/in/welington-argolo-2476861b9/)
+2. **Clone o repositório:**  
+   - Abra o Prompt de Comando e navegue até a pasta onde deseja instalar o projeto.  
+   - Execute o comando:  
+     ```bash
+     git clone https://github.com/welingtonguilhardi/Gestor-Financeiro.git
+     ```  
+
+3. **Acesse a pasta do projeto:**  
+   - Navegue até a pasta onde o repositório foi clonado.  
+   - Entre na pasta **Gestor-Financeiro**.  
+
+4. **Execute o instalador:**  
+   - Localize o arquivo **`install.bat`** na pasta do projeto.  
+   - Clique duas vezes sobre o arquivo e aguarde até aparecer a mensagem:  
+     _"Pressione qualquer tecla para continuar..."_  
+
+5. **Inicie o projeto:**  
+   - Após a instalação, clique no arquivo **`start.bat`** para iniciar o sistema.  
+
+6. **Acesse o sistema no navegador:**  
+   - Aguarde a mensagem no terminal:  
+     ```
+     Django version 5.0.6, using settings 'app.settings'
+     Starting development server at http://127.0.0.1:8000/
+     Quit the server with CTRL-BREAK.
+     ```  
+   - Pressione `CTRL` e clique no link: [http://127.0.0.1:8000/](http://127.0.0.1:8000/).  
+
+---
+
+## 📄 **Licença**  
+Este projeto está sob a licença [MIT](https://opensource.org/licenses/MIT).
+
+---
+
+## 👤 **Autor**  
+**Welington Argolo Guilhardi**  
+
+- [GitHub](https://github.com/welingtonguilhardi/)  
+- [LinkedIn](https://www.linkedin.com/in/welington-argolo-2476861b9/)  
