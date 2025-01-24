@@ -51,6 +51,11 @@ REM Realiza as migrações do banco de dados
 echo Realizando as migrações do banco de dados...
 python manage.py migrate
 
+REM Cria um superusuario
+echo from autenticacao.models import Users; from empresa.models import Cargo; superuser = Users.objects.create_superuser('admin', 'admin@example.com', 'admin', tipo_user='e'); Cargo.objects.create(user_empresa=superuser, cargo='Dono') | python manage.py shell
+echo Superusuário criado com sucesso!
+
+
 REM Informa ao usuário que a configuração foi concluída
 echo Instalação concluída com sucesso!
 pause
