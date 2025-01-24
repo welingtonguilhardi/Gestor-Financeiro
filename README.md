@@ -32,3 +32,12 @@ As principais tecnologias utilizadas no projeto:
   Quit the server with CTRL-BREAK.
 
 8. Segure o botão ctrl e clique sobre o link http://127.0.0.1:8000/.
+
+## 📄 Licença
+Este projeto está sob a licença MIT.
+
+## 👤 Autor
+Welington Argolo Guilhardi
+
+- [GitHub](https://github.com/welingtonguilhardi/)
+- [LinkedIn](https://www.linkedin.com/in/welington-argolo-2476861b9/)
